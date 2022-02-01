@@ -9,6 +9,7 @@ interface client {
 
 const clients:client[] = []
 const rooms: Record<string, {member: string[]}> = {}
+
 const socket = ({io}: {io: Server}) => {
     logger.info('sockets enables')
 
@@ -46,13 +47,15 @@ const socket = ({io}: {io: Server}) => {
         }
 
         socket.on(EVENTS.CLIENT.SEND_SINGLE_MESSAGE, ({message, chat_id,creator, timestamp, read_status} : SingleMessageType) =>{
-            const twoMember:boolean = rooms[chat_id].member.length === 2
+            // logger.info('hi')
+            // logger.warn(rooms[chat_id])
+            // const twoMember:boolean = rooms[chat_id].member.length === 2 || true
             socket.to(chat_id).emit(EVENTS.SERVER.RECEIVE_SINGLE_MESSAGE, {
                 message,
                 chat_id,
                 creator,
                 timestamp,
-                read_status: twoMember ? true: read_status
+                read_status: read_status
             })
         })
 
