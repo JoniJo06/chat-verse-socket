@@ -7,7 +7,7 @@ import cors from 'cors'
 import {version} from '../package.json'
 import socket from "./socket";
 
-const host = process.env.HOST
+// const host = process.env.HOST
 
 const port = Number(process.env.PORT) || 4007
 
@@ -29,7 +29,7 @@ app.get('/', (_: Request, res: Response) => {
 httpServer.listen(port, () => {
 
     logger.info(`Server version ${version} is listen on port ${port}`)
-    logger.info(`${host}:${port}`)
+    // logger.info(`${host}:${port}`)
 
     socket({io})
 })
