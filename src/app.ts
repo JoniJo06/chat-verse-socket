@@ -26,7 +26,7 @@ app.get('/', (_: Request, res: Response) => {
     res.send('Server is up and running version ' + version)
 })
 
-httpServer.listen(port, host, () => {
+httpServer.listen(port, () => {
 
     logger.info(`Server version ${version} is listen on port ${port}`)
     logger.info(`${host}:${port}`)
