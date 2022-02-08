@@ -3,9 +3,16 @@
   "version": "1.0.0",
   "description": "",
   "main": "src/app.ts",
+  "engines": {
+    "node": "16.x",
+    "yarn": "1.x"
+
+  },
   "scripts": {
     "dev": "nodemon --config nodemon.json src/app.ts | pino-pretty",
-    "start": "ts-node src/app.ts"
+    "start": "node build/src/app.js",
+    "build": "tsc --outDir build/",
+    "heroku-postbuild": "tsc --outDir build/"
   },
   "keywords": [],
   "author": "jonas, tobias",
