@@ -4,7 +4,8 @@
   "description": "",
   "main": "src/app.ts",
   "scripts": {
-    "dev": "nodemon --config nodemon.json src/app.ts | pino-pretty"
+    "dev": "nodemon --config nodemon.json src/app.ts | pino-pretty",
+    "start": "ts-node src/app.ts"
   },
   "keywords": [],
   "author": "jonas, tobias",
