@@ -1,6 +1,7 @@
 import {Server, Socket} from "socket.io"
 import logger from "./utils/logger";
 import {EVENTS} from "./enums";
+import { nanoid } from 'nanoid';
 
 interface client {
     user_id: string
@@ -8,7 +9,7 @@ interface client {
 }
 
 const clients:client[] = []
-const rooms: Record<string, {member: string[]}> = {}
+const rooms: Record<string, {name: string}> = {}
 
 const socket = ({io}: {io: Server}) => {
     logger.info('sockets enables')
@@ -26,13 +27,17 @@ const socket = ({io}: {io: Server}) => {
         socket.on(EVENTS.CLIENT.CREATE_ROOM, (chat_id:string, user_id:string) => {
             const exist:boolean = chat_id in rooms
             if(exist){
+            logger.info('create')
                 socket.join(chat_id)
-                socket.emit(EVENTS.SERVER.JOINED_ROOM, chat_id)
+                // logger.info(socket)
+                socket.to(chat_id).emit(EVENTS.SERVER.JOINED_ROOM, chat_id)
+                logger.info(rooms)
             } else {
-                rooms[chat_id] = {
-                    member: []
+                const roomId = nanoid()
+                rooms[roomId] = {
+                    name: chat_id
                 }
-                rooms[chat_id].member.push(user_id)
+
                 socket.join(chat_id)
                 socket.emit(EVENTS.SERVER.JOINED_ROOM, chat_id)
             }
@@ -55,7 +60,7 @@ const socket = ({io}: {io: Server}) => {
                 chat_id,
                 creator,
                 timestamp,
-                read_status: read_status
+                 read_status
             })
         })
 
@@ -67,14 +72,14 @@ const socket = ({io}: {io: Server}) => {
                     break;
                 }
             }
-            for (const key in rooms){
-                const value = rooms[key];
-                const i = value.member.indexOf(String(user_id))
-                if(i !== undefined){
-                    value.member.splice(i, 1);
-                    break
-                }
-            }
+            // for (const key in rooms){
+            //     const value = rooms[key];
+            //     const i = value.member.indexOf(String(user_id))
+            //     if(i !== undefined){
+            //         value.member.splice(i, 1);
+            //         break
+            //     }
+            // }
         })
 
     })

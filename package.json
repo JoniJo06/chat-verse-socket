@@ -6,7 +6,6 @@
   "engines": {
     "node": "16.x",
     "yarn": "1.x"
-
   },
   "scripts": {
     "dev": "nodemon --config nodemon.json src/app.ts | pino-pretty",
@@ -30,6 +29,7 @@
     "dayjs": "^1.10.7",
     "dotenv": "^16.0.0",
     "express": "^4.17.2",
+    "nanoid": "^3.2.0",
     "pino": "^7.6.5",
     "pino-pretty": "^7.5.1",
     "socket.io": "^4.4.1"
