@@ -27,11 +27,8 @@ const socket = ({io}: {io: Server}) => {
         socket.on(EVENTS.CLIENT.CREATE_ROOM, (chat_id:string, user_id:string) => {
             const exist:boolean = chat_id in rooms
             if(exist){
-            logger.info('create')
                 socket.join(chat_id)
-                // logger.info(socket)
                 socket.to(chat_id).emit(EVENTS.SERVER.JOINED_ROOM, chat_id)
-                logger.info(rooms)
             } else {
                 const roomId = nanoid()
                 rooms[roomId] = {
@@ -52,9 +49,6 @@ const socket = ({io}: {io: Server}) => {
         }
 
         socket.on(EVENTS.CLIENT.SEND_SINGLE_MESSAGE, ({message, chat_id,creator, timestamp, read_status} : SingleMessageType) =>{
-            // logger.info('hi')
-            // logger.warn(rooms[chat_id])
-            // const twoMember:boolean = rooms[chat_id].member.length === 2 || true
             socket.to(chat_id).emit(EVENTS.SERVER.RECEIVE_SINGLE_MESSAGE, {
                 message,
                 chat_id,
